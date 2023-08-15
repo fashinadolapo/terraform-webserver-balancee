@@ -18,6 +18,37 @@ module "vpc" {
   }
 }
 
+# create security groups
+
+module "my_security_group" {
+  source = "terraform-aws-modules/security-group/aws"
+
+  Name = "balance-sg-${terraform.workspace}"
+  description = "Example security group for SSH, HTTP, and HTTPS"
+
+  ingress_cidr_blocks      = ["10.10.0.0/16"]
+  ingress_rules = [
+    {
+      from_port   = 22
+      to_port     = 22
+      protocol    = "ssh"
+      cidr_blocks = ["0.0.0.0/0"]
+    },
+    {
+      from_port   = 80
+      to_port     = 80
+      protocol    = "http"
+      cidr_blocks = ["0.0.0.0/0"]
+    },
+    {
+      from_port   = 443
+      to_port     = 443
+      protocol    = "https"
+      cidr_blocks = ["0.0.0.0/0"]
+    },
+  ]
+}
+
 # create ec2 instance 
 module "ec2_instance" {
   source  = "terraform-aws-modules/ec2-instance/aws"
@@ -27,7 +58,7 @@ module "ec2_instance" {
   instance_type          = "t2.micro"
   key_name               = "user1"
   monitoring             = true
-  vpc_security_group_ids = ["sg-12345678"]
+  vpc_security_group_ids = module.my_security_group_id
   subnet_id              = "subnet-eddcdzz4"
 
   tags = {
