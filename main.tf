@@ -63,11 +63,20 @@ module "ec2_instance" {
 
   name = "balancee-web-server"
 
+  ami                    = var.ami
   instance_type          = var.instance_type
   key_name               = var.key_name
   monitoring             = true
   vpc_security_group_ids = module.my_security_group_id
-  subnet_id              = "subnet-eddcdzz4"
+  subnet_id              = module.vpc.public_subnet_id
+
+ user_data = <<-EOF
+              #!/bin/bash
+              yum update -y
+              amazon-linux-extras install nginx1.12 -y
+              service nginx start
+              echo "<html><body><h1>Hello World!</h1></body></html>" > /usr/share/nginx/html/index.html
+              EOF
 
   tags = {
     Terraform   = "true"
