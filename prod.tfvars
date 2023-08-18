@@ -1,4 +1,3 @@
-
 vpc_cidr            = "10.0.0.0/16"
 vpc_name            = "balancee_vpc"
 az1                 = "us-west-2a", 
