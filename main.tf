@@ -2,12 +2,12 @@
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
-  name = "my-vpc"
-  cidr = "10.0.0.0/16"
+  name = var.vpc_name
+  cidr = var.vpc_cidr
 
-  azs             = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
-  private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-  public_subnets  = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
+  azs             = ["var.az1", "var.az2", "var.az3"]
+  private_subnets = ["var.priv-sub-1", "var.priv-sub-2", "var.priv-sub-3"]
+  public_subnets  = ["var.pub-sub-1", "var.pub-sub-2", "var.pub-sub-3"]
 
   enable_nat_gateway = true
   enable_vpn_gateway = true
@@ -53,10 +53,10 @@ module "my_security_group" {
 module "ec2_instance" {
   source  = "terraform-aws-modules/ec2-instance/aws"
 
-  name = "single-instance"
+  name = "balancee-web-server"
 
-  instance_type          = "t2.micro"
-  key_name               = "user1"
+  instance_type          = var.instance_type
+  key_name               = var.key_name
   monitoring             = true
   vpc_security_group_ids = module.my_security_group_id
   subnet_id              = "subnet-eddcdzz4"
