@@ -18,6 +18,14 @@ module "vpc" {
   }
 }
 
+# create key_pairs
+module "key_pair" {
+  source = "terraform-aws-modules/key-pair/aws"
+
+  key_name           = var.key_pair
+  create_private_key = true
+}
+
 # create security groups
 
 module "my_security_group" {
