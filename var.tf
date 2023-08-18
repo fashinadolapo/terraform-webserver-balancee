@@ -65,7 +65,13 @@ variable "instance_type" {
 }
 variable "key_name" {
   type        = string
-  description = "The key name to be created."
+  description = "The key_name to be created."
   default     = ""
 }
+variable "ami" {
+  type        = string
+  description = "The ami of the instance to be created."
+  default     = ""
+}
+
 
