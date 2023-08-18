@@ -3,10 +3,10 @@ variable "vpc_name" {
   description = "name of vpc to be created"
   default     = ""
 }
-variable "aws_region" {
+variable "region" {
   type        = string
   description = "The AWS region where the resources will be created."
-  default     = "us-west-2"
+  default     = ""
 }
 variable "vpc_cidr" {
   type        = string
